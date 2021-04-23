@@ -2,10 +2,10 @@ import axios from 'axios'
 
 const env = process.env.NODE_ENV
 const dev = env !== 'production'
-axios.defaults.baseURL = dev ? '' : 'https://js2api.com/js2-json/v1/'
+axios.defaults.baseURL = dev ? 'api' : 'https://js2api.com/js2-json/v1/'
 
 /*
- * 跨域代理
+ * webpack内置服务器跨域代理设置
  * vue.config.js 
  module.exports = {
 	devServer: {
@@ -30,12 +30,11 @@ axios.interceptors.request.use(request => {
 //响应拦截
 axios.interceptors.response.use(res => {
 	//成功，HTTP状态：200
-	return Promise.resolve(res)
+	return Promise.resolve(res.data)
 }, err => {
 	//失败，HTTP状态：200以外的
-	console.log('状态码：', err.response.data.code)
-	console.log('自定义错误信息：', err.response.data.msg)
-	return Promise.reject(err)
+	console.log('错误信息：', err.response)
+	return Promise.reject(err.response.data)
 })
 
 export default axios
