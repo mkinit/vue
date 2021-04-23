@@ -20,7 +20,7 @@ axios.interceptors.request.use(request => {
 		...request.headers
 	}
 	if (localStorage.getItem('token') || sessionStorage.getItem('token')) {
-		request.headers.token = localStorage.getItem('token')
+		request.headers.token = localStorage.getItem('token') || sessionStorage.getItem('token')
 	}
 	return request
 }, error => {
